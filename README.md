@@ -27,13 +27,14 @@ python generate_azure_data.py --init
 This will create a configuration file in `~/.cloudsim`.
 Edit this file manually to choose where to store the dataset and the framework data.
 
-Once the configuration is set, you should continue to download the dataset and preprocess it.
+Once the configuration is set, continue to download the dataset and preprocess it.
 This might take a while to preform dependent on your internet connection and your CPU speed.
 ```bash
 cd azure-tools
 python generate_azure_data.py --download --convert --choose-random-ids --cpu-data
 ```
 To break it down, this command do the following:
+
  1. Download the dataset (approximately 85GB).
  2. Convert the main data file (`vmtable.csv.gz`) to a faster loading format (HDF).
  3. Choose a random set of clients' IDs to work with.
