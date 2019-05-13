@@ -40,6 +40,10 @@ import uuid
 from threading import RLock
 import pprint
 import tabulate
+from pygments import highlight
+from pygments.lexers import Python3TracebackLexer
+from pygments.lexers.data import YamlLexer
+from pygments.formatters import Terminal256Formatter
 
 import msgpack
 import msgpack_numpy as m
@@ -151,7 +155,18 @@ def print_job_log():
 
 
 def print_job_errors():
-    pprint.pprint(read_job_errors())
+    for e in read_job_errors():
+        if isinstance(e, str):
+            print(e)
+        elif isinstance(e, dict):
+            cur_traceback = e.pop('traceback')
+            print(highlight(pprint.pformat(e), YamlLexer(), Terminal256Formatter()))
+            if cur_traceback:
+                print(highlight(cur_traceback, Python3TracebackLexer(), Terminal256Formatter()))
+        else:
+            pprint.pprint(e)
+
+        print('=========================================================\n')
 
 
 ##################################################################
@@ -276,6 +291,8 @@ def __batch_jobs_control_thread(event, queue, cloudsim_job_globals):
                 job_data = dict(
                     data_type='batch-error',
                     job_func_name=job_func.__name__,
+                    job_args=job_args,
+                    job_kwargs=job_kwargs,
                     traceback=traceback.format_exc()
                 )
                 archive_job(job_data)
@@ -357,7 +374,7 @@ def get_executor_pids(executor, max_workers=12):
 def destroy_job_executors():
     job_executors = get_job_executors()
     for cur_executor, w, pids in job_executors:
-        cur_executor.shutdown(False)
+        # cur_executor.shutdown(False)
         dead_count = 0
         kill_errors = []
         for pid in pids:
@@ -383,7 +400,7 @@ def get_job_executor(max_workers=12, destroy_old=False):
         destroy_job_executors()
 
     # Workaround: Don't queue any job so canceling will be quicker
-    concurrent.futures.process.EXTRA_QUEUED_CALLS = 0
+    # concurrent.futures.process.EXTRA_QUEUED_CALLS = 0
     cur_executor = concurrent.futures.ProcessPoolExecutor(max_workers=max_workers)
 
     pids = get_executor_pids(cur_executor, max_workers)

@@ -38,6 +38,6 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     install_requires=['numpy', 'msgpack', 'msgpack-numpy', 'matplotlib', 'scipy', 'seaborn', 'sympy', 'pandas',
-                      'nesteddict', 'tabulate', 'requests'],
+                      'nesteddict', 'tabulate', 'requests', 'pygments'],
     dependency_links=['https://bitbucket.org/funaro/nesteddict']
 )

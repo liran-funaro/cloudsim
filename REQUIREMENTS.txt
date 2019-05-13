@@ -12,6 +12,7 @@ ipython-autotime
 jupyter_contrib_nbextensions
 jupyter_nbextensions_configurator
 requests
+pygments
 
 # pip uninstall msgpack-python
 # conda update python
@@ -22,3 +23,4 @@ requests
 # conda install -c anaconda libgcc
 # conda install -c conda-forge libsodium
 # jupyter contrib nbextension install --user
+# jupyter nbextensions_configurator enable --user
