@@ -64,8 +64,8 @@ def get_matching_results(ds_obj: DataSet, name_regexp, param_group=1):
     return sorted(zip(sort_keys, match_names))
 
 
-def get_sub_result(ds_obj: DataSet, res_name):
-    res_keys = list(ds_obj.result_store.keys[(*res_name, slice(None))])
+def query_results(ds_obj: DataSet, query):
+    res_keys = list(ds_obj.result_store.keys[query])
 
     res_params = list(map(lambda k: tuple(map(int_or_float, k[-1].split('-'))), res_keys))
     res_params = [k if not type(k) in (tuple, list) or len(k) != 1 else k[0] for k in res_params]
@@ -73,6 +73,10 @@ def get_sub_result(ds_obj: DataSet, res_name):
     # num_regexp = re.compile(r'(\d*[.]?\d+(?:[eE][+-]?\d+)?)')
     # res_params = [tuple([int_or_float(n) for n in num_regexp.findall(k)]) for k in res_keys]
     return sorted(zip(res_params, res_keys))
+
+
+def get_sub_result(ds_obj: DataSet, res_name):
+    return query_results(ds_obj, (*res_name, slice(None)))
 
 
 class Results:
@@ -102,8 +106,8 @@ class Results:
 
 
 class UnifiedResults:
-    def __init__(self, ds_obj: DataSet, res_name, result_count=0):
-        self.matching_results = get_sub_result(ds_obj, res_name)
+    def __init__(self, ds_obj: DataSet, result_query, result_count=0):
+        self.matching_results = query_results(ds_obj, result_query)
         self.matching_results = self.matching_results[-result_count:]
         self.match_count = len(self.matching_results)
         self.result_count = 0
@@ -127,7 +131,7 @@ class UnifiedResults:
             self.input = self.results[-1].input
 
         if ds_obj.verbose:
-            print(ds_obj.name, ":", res_name,
+            print(ds_obj.name, ":", result_query,
                   "- matching:", self.match_count,
                   "- valid:",    self.result_count,
                   "- total:",    self.total_res_count)
