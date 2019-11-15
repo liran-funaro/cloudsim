@@ -27,7 +27,7 @@ setup(
     author_email="liran.funaro+cloudsim@gmail.com",
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url="https://bitbucket.org/funaro/cloudsim",
+    url="https://github.com/liran-funaro/cloudsim",
     keywords='simulation azure cloud providers clients',
     classifiers=[
         "Programming Language :: Python :: 3",
