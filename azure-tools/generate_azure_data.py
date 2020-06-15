@@ -82,8 +82,8 @@ def generate_random_clients_id_file(n_ids: int = 12*2048, min_alive_days: Number
 
 def generate_cpu_data():
     os.makedirs(azure.azure_cpu_data_path, exist_ok=True)
-    cmd_args = './convert-cpu-data.bash', azure.azure_data_path, azure.azure_vm_ids_path, azure.azure_cpu_data_path
-    subprocess.run(cmd_args, cwd=CWD, shell=True)
+    cmd_args = './convert-cpu-data.sh', azure.azure_data_path, azure.azure_vm_ids_path, azure.azure_cpu_data_path
+    subprocess.run(cmd_args, cwd=CWD)
 
 
 if __name__ == '__main__':

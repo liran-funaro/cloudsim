@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Converts Azure's CPU data to per user data.
 #
@@ -23,10 +23,10 @@
 set -e
 
 # Count lines
-# zcat /homes/fonaro/workspace-data/azurepublicdataset/vm_cpu_readings-file-1-of-125.csv.gz | wc -l
+# zcat vm_cpu_readings-file-1-of-125.csv.gz | wc -l
 
 # Count output files
-# ls -l /homes/fonaro/workspace-data/azure_cpu_data/ | wc -l
+# ls -l azure_cpu_data/ | wc -l
 
 # VM ID characters
 # '+/0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
